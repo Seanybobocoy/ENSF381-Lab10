@@ -40,5 +40,40 @@ def add_product():
 def get_image(filename):
     return send_from_directory('product-images', filename)
 
+@app.route('/products/<int:product_id>', methods=['PUT'])
+def update_product(product_id):
+    update_data = request.json
+    products = load_products()
+    product = next((p for p in products if p['id'] == product_id), None)
+
+    if not product:
+        return '', 404  # Product not found
+
+    # Update product data, be mindful of keys present in update_data
+    product.update(update_data)
+
+    # Write the updated products list back to the JSON file
+    with open('products.json', 'w') as f:
+        json.dump({"products": products}, f)
+
+    return jsonify(product)
+
+@app.route('/products/<int:product_id>', methods=['DELETE'])
+def remove_product(product_id):
+    products = load_products()
+    product_index = next((i for i, p in enumerate(products) if p['id'] == product_id), None)
+
+    if product_index is None:
+        return '', 404  # Product not found
+
+    # Remove the product from the list
+    del products[product_index]
+
+    # Write the updated products list back to the JSON file
+    with open('products.json', 'w') as f:
+        json.dump({"products": products}, f)
+
+    return '', 204
+
 if __name__ == '__main__':
     app.run(debug = True)
