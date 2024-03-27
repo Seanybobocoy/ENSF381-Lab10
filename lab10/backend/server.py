@@ -47,12 +47,10 @@ def update_product(product_id):
     product = next((p for p in products if p['id'] == product_id), None)
 
     if not product:
-        return '', 404  # Product not found
+        return '', 404 
 
-    # Update product data, be mindful of keys present in update_data
     product.update(update_data)
 
-    # Write the updated products list back to the JSON file
     with open('products.json', 'w') as f:
         json.dump({"products": products}, f)
 
@@ -64,12 +62,10 @@ def remove_product(product_id):
     product_index = next((i for i, p in enumerate(products) if p['id'] == product_id), None)
 
     if product_index is None:
-        return '', 404  # Product not found
+        return '', 404  
 
-    # Remove the product from the list
     del products[product_index]
 
-    # Write the updated products list back to the JSON file
     with open('products.json', 'w') as f:
         json.dump({"products": products}, f)
 
