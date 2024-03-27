@@ -4,13 +4,13 @@ import os
 
 app = Flask( __name__ )
 
-def load_products () :
+def load_products() :
     with open ('products.json', 'r') as f :
-        return json . load ( f ) [ ' products ']
+        return json.load(f)['products']
     
 
-@app.route ('/products', methods =['GET'])
-@app.route ('/products/ < int : product_id > ' , methods =[ ' GET '])
+@app.route('/products', methods =['GET'])
+@app.route('/products/<int:product_id>', methods=['GET'])
 def get_products(product_id = None) :
     products = load_products ()
     if product_id is None :
