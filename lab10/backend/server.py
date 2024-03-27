@@ -16,7 +16,7 @@ def get_products(product_id = None) :
     if product_id is None :
         # Return all products wrapped in an object with a ' products ' key
         return jsonify({"products": products})
-    else :
+    else:
         product = next((p for p in products if p ['id'] == product_id), None )
         
         # If a specific product is requested ,
